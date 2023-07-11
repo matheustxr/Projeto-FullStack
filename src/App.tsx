@@ -6,9 +6,11 @@ import ErrorPage from "./pages/Error/Index";
 import Footer from "./componentes/Footer/Index";
 import Private from "./pages/Privada/Index";
 import RequireAuth from "./contexts/Auth/RequiereAuth";
+import { useContext } from "react";
+import { AuthContext } from "./contexts/Auth/AuthContext";
 
 function App() {
-
+  const auth = useContext(AuthContext)
   return (
     <>
       <header>
@@ -17,6 +19,7 @@ function App() {
         <Link to="/login">Login</Link>
         <Link to="/cadastro">Cadastro</Link>
         <Link to="/private">Página Privada</Link>
+        {auth.user && <a href="javascript:;">Sair</a>}
         </nav>
       </header>
       <main>
