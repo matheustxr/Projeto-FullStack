@@ -11,7 +11,8 @@ function Login() {
 
     
 
-    const handleLogin = async () => {
+    const handleLogin = async (e:React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         if (email && password) {
             const isLogged = await auth.signIn(email, password)
             if (isLogged) {
@@ -24,22 +25,24 @@ function Login() {
 
     return (
         <div>
-            <h2>Página fechada</h2>
+            <h2>Página de LOGIN</h2>
+            <form onSubmit={handleLogin}>
+                <input 
+                    type="text" 
+                    value={email} 
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder='Digite seu e-mail' 
+                />
 
-            <input 
-                type="text" 
-                value={email} 
-                onChange={e => setEmail(e.target.value)}
-                placeholder='Digite seu e-mail' 
-            />
-
-            <input 
-                type="password" 
-                value={password} 
-                onChange={e => setPassword(e.target.value)}
-                placeholder='Digite sua senha' 
-            />
-            <button onClick={handleLogin}>Logar</button>
+                <input 
+                    type="password" 
+                    value={password} 
+                    onChange={e => setPassword(e.target.value)}
+                    placeholder='Digite sua senha' 
+                />
+                <button>Logar</button>
+            </form>
+            
         </div>
     );
 }

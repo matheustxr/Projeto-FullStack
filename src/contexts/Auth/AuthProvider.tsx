@@ -1,51 +1,59 @@
-import { useEffect, useState } from "react"
-import { useApi } from "../../hooks/useApi"
-import { User } from "../../compatilhado/interfaces/User"
-import { AuthContext } from "./AuthContext"
+import { useState, useEffect } from "react";
+import { useApi } from "../../hooks/useApi";
+import { User } from "../../compatilhado/interfaces/User";
+import { AuthContext } from "./AuthContext";
 
+export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const api = useApi();
 
-export const AuthProvider = ({children}: {children: JSX.Element}) => {
+  const signIn = async (email: string, password: string) => {
+    try {
+      const data = await api.signIn(email, password);
+      if (data.user && data.token) {
+        setUser(data.user);
+        localStorage.setItem("authToken", data.token); // Armazena o token no localStorage
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Error signing in:", error);
+      return false;
+    }
+  };
 
-    const [user, setUser] = useState<User | null>(null)
-    const api = useApi()
+  const signOut = async () => {
+    console.log("signOut being executed");
+    setUser(null);
+    localStorage.removeItem("authToken"); // Remove o token do localStorage
+    await api.logOut();
+  };
 
-    useEffect(() => {
-        const validateToken = async () => {
-            const storageData = localStorage.getItem('authToken');
-            if (storageData){
-                const data = await api.validateToken(storageData);
-                if (data.user){
-                    setUser(data.user);
-                }
-            }
+  // Função de validação do token
+  const validateToken = async () => {
+    const storageData = localStorage.getItem("authToken");
+    if (storageData) {
+      try {
+        const data = await api.validateToken(storageData);
+        if (data.user) {
+          setUser(data.user);
         }
-        validateToken()
-    }, []) 
-
-    const signIn = async (email: string, password:string) => {
-        const data = await api.signIn(email, password);
-        if (data.user && data.token){
-            setUser(data.user);
-            setToken(data.token);
-            return true
-        }
-        return false
+      } catch (error) {
+        console.error("Error validating token:", error);
+      }
     }
+  };
 
-    const signOut = async () => {
-        await api.logOut();
-        setUser(null);
-    }
+  // Chama a função de validação do token ao carregar o componente
+  useEffect(() => {
+    validateToken();
+  }, []);
 
-    const setToken = (token: string) => {
-        localStorage.setItem('authToken', token)
-    }
-
-    return (
-        <AuthContext.Provider
-            value={{user, signIn, signOut}}
-        >
-            {children}
-        </AuthContext.Provider> 
-    )
-}
+  return (
+    <AuthContext.Provider
+      value={{ user, signIn, signOut }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};

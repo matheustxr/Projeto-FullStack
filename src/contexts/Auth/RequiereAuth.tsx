@@ -1,19 +1,15 @@
-import { useContext } from 'react'
-import { AuthContext } from './AuthContext';
-import Login from '../../pages/login/Index';
+import { Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
 
-interface PropsRequireAuth{
-    children: JSX.Element;
-}
+const RequireAuth = ({ children }: { children: JSX.Element }) => {
+  const auth = useContext(AuthContext);
 
-export default function RequireAuth( {children}:PropsRequireAuth ) {
+  if (!auth.user) {
+    // Se o usuário não estiver autenticado, redireciona para a página de login
+    return <Navigate to="/login" />;
+  }
 
-    const auth = useContext(AuthContext)
-
-    if (!auth.user){
-        return <Login />;
-    }
-
-    return children
-    
-}
+  return <>{children}</>;
+};
+export default RequireAuth;
