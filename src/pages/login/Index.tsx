@@ -32,6 +32,7 @@ function Login() {
                     value={email} 
                     onChange={e => setEmail(e.target.value)}
                     placeholder='Digite seu e-mail' 
+                    className='bg-gray-600'
                 />
 
                 <input 
@@ -39,6 +40,7 @@ function Login() {
                     value={password} 
                     onChange={e => setPassword(e.target.value)}
                     placeholder='Digite sua senha' 
+                    className='bg-gray-600'
                 />
                 <button>Logar</button>
             </form>

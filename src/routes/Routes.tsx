@@ -1,13 +1,13 @@
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import Home from "./pages/Home/Index";
-import Login from "./pages/login/Index";
-import Cadastro from "./pages/cadastro/Index";
-import ErrorPage from "./pages/Error/Index";
-import Footer from "./componentes/Footer/Index";
-import Private from "./pages/Privada/Index";
-import RequireAuth from "./contexts/Auth/RequiereAuth";
+import Home from "../pages/Home/Index";
+import Login from "../pages/login/Index";
+import Cadastro from "../pages/cadastro/Index";
+import ErrorPage from "../pages/Error/Index";
+import Footer from "../componentes/Footer/Index";
+import Private from "../pages/Privada/Index";
+import RequireAuth from "../contexts/Auth/RequiereAuth";
 import { useContext } from "react";
-import { AuthContext } from "./contexts/Auth/AuthContext";
+import { AuthContext } from "../contexts/Auth/AuthContext";
 
 function App() {
   const auth = useContext(AuthContext);
