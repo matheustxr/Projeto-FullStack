@@ -1,15 +1,16 @@
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import Home from "../pages/Home/Index";
-import Login from "../pages/login/Index";
+import Home from "../pages/Home/Home";
+import Login2 from "../pages/Login/Login";
+import Register from "../pages/Registrar/Registrar";
 import Cadastro from "../pages/cadastro/Index";
-import ErrorPage from "../pages/Error/Index";
+import ErrorPage from "../pages/Error/Error";
 import Footer from "../componentes/Footer/Index";
-import Private from "../pages/Privada/Index";
+import Private from "../pages/Privada/Private";
 import RequireAuth from "../contexts/Auth/RequiereAuth";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/Auth/AuthContext";
 
-function App() {
+function Routers() {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -23,7 +24,8 @@ function App() {
         <nav className="">
         <Link to="/">Home</Link>
         <Link to="/login">Login</Link>
-        <Link to="/cadastro">Cadastro</Link>
+        <Link to="/register">Registrar</Link>
+        <Link to="/cadastrar-card">Cadastrar Card</Link>
         <Link to="/private">Página Privada</Link>
         {auth.user && <button onClick={handleLogOut}>Sair</button>}
         </nav>
@@ -31,8 +33,9 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={ <Home /> } />
-          <Route path="/login" element={ <Login /> } />
-          <Route path="/cadastro" element={ <Cadastro /> } />
+          <Route path="/login" element={ <Login2 /> } />
+          <Route path="/register" element={ <Register /> } />
+          <Route path="/cadastrar-card" element={ <Cadastro /> } />
           <Route path="/private" element={<RequireAuth><Private /></RequireAuth>}/>
           <Route path="*" element={ <ErrorPage /> } />
         </Routes>
@@ -44,4 +47,4 @@ function App() {
   );
 }
 
-export default App;
+export default Routers;

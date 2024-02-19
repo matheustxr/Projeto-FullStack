@@ -3,6 +3,7 @@ import { useApi } from "../../hooks/useApi";
 import { User } from "../../compatilhado/interfaces/User";
 import { AuthContext } from "./AuthContext";
 
+
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [user, setUser] = useState<User | null>(null);
   const api = useApi();

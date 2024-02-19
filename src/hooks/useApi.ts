@@ -38,6 +38,7 @@ const api = axios.create({
 export const useApi = () => ({
     validateToken: async (token: string) => {
         try {
+            /*
             //RESPOTA FALSA DO SERVIDOR
             return {
                 user: {
@@ -46,7 +47,7 @@ export const useApi = () => ({
                   email: 'joaozindev@gmail.com',
                   password: '1234',
                 },
-              };
+              }; */
             const response = await api.post('/validate', { token });
             return response.data;
         } catch (error) {
@@ -57,6 +58,7 @@ export const useApi = () => ({
 
     signIn: async (email: string, password: string) => {
         try {
+            /*
             //RESPOTA FALSA DO SERVIDOR
             return {
                 user: {
@@ -66,7 +68,7 @@ export const useApi = () => ({
                   password: '1234',
                 },
                 token: '123456789',
-              };
+              }; */
             const response = await api.post('/signIn', { email, password });
             return response.data;
         } catch (error) {
