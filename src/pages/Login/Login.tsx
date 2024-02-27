@@ -63,10 +63,15 @@ function Login() {
                     placeholder="Digite sua senha"
                     className="bg-gray-600"
                 />
-                <button>Login</button>
+                <button>
+                    {loading ? "logando": "logar"}
+                </button>
             </form>
         </div>
     );
 }
 
 export default Login;
+/*
+
+*/
