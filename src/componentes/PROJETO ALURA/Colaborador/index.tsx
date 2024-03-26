@@ -1,5 +1,5 @@
 import './colaborador.css'
-import { IColaborador } from '../../compatilhado/interfaces/IColaborador';
+import { IColaborador } from '../../../compatilhado/interfaces/IColaborador';
 
 interface ColoboradorProps extends IColaborador {
     corDeFundo: string;

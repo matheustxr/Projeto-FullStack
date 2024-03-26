@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Formulario from '../../componentes/Formulario';
+import Formulario from '../../componentes/PROJETO ALURA/Formulario';
 import { IColaborador } from '../../compatilhado/interfaces/IColaborador';
 
 function Cadastro() {
@@ -47,7 +47,7 @@ function Cadastro() {
 
     return (
         <>
-            Cadastro
+            Cadastro card
             <Formulario times={times.map(time => time.nome)} aoColaboradorCadastrado={colaborador => aoNovoColaboradorAdicionado(colaborador)}/>
         </>
     );

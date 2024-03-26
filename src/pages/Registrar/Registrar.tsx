@@ -1,32 +1,30 @@
-import { useState } from 'react'
-// import { AuthContext } from '../../contexts/Auth/AuthContext';
-// import { useNavigate } from 'react-router-dom';
+import CreateUser from "../../componentes/createUser/createUser";
 
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth } from '../../Services/FireBaseConfig';
 
-function Register() {
+export default function Register() {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('')
-    const [
-        createUserWithEmailAndPassword,
-        loading,
-    ] = useCreateUserWithEmailAndPassword(auth);
-
-    function register(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-        createUserWithEmailAndPassword(email, password)
-    }
-
-    if (loading) {
-        return <p>carregando...</p>;
-    } else <p>registro concluido!</p>
 
     return (
         <div>
             <h2>Página de registro</h2>
-            <form onSubmit={register}> {/*handleLogin*/}
+            
+            <CreateUser />
+        </div>
+    );
+}
+
+
+    /* return (
+        <div>
+            <h2>Página de registro</h2>
+            <form onSubmit={}> {/*handleLogin* /}
+                <input 
+                    type="text" 
+                    value={name} 
+                    onChange={e => setName(e.target.value)}
+                    placeholder='Digite seu e-mail' 
+                    className='bg-gray-600'
+                />
                 <input 
                     type="text" 
                     value={email} 
@@ -48,8 +46,7 @@ function Register() {
         </div>
     );
 }
-
-export default Register;
+/*
 
 /*
      const [email, setEmail] = useState('');

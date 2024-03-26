@@ -3,7 +3,7 @@ import CampoTexto from "../CampoTexto"
 import ListaSustpensa from "../ListaSuspensa"
 import Botao from "../Botao"
 import { useState } from "react"
-import { IColaborador } from "../../compatilhado/interfaces/IColaborador"
+import { IColaborador } from "../../../compatilhado/interfaces/IColaborador"
 
 interface FormularioProps{
     aoColaboradorCadastrado: (colaborador: IColaborador) => void;

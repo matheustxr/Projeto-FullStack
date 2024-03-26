@@ -1,14 +1,16 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyApcHMr7bB6mIPiZ1vTBQQ5L71kSfCGPwA",
-  authDomain: "alien-airfoil-399915.firebaseapp.com",
-  projectId: "alien-airfoil-399915"
+  apiKey: "AIzaSyAhC7qUdPROg5wlkuolLt45S_fRh6p9QM8",
+  authDomain: "teste2-35f55.firebaseapp.com",
+  projectId: "teste2-35f55",
+  storageBucket: "teste2-35f55.appspot.com",
+  messagingSenderId: "457045941026",
+  appId: "1:457045941026:web:234bcf4f878c547bb3e37b",
+  measurementId: "G-36L0KT2C97"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 export const auth = getAuth(app);

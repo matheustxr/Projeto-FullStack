@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Banner from '../../componentes/Banner/Banner';
-import Formulario from '../../componentes/Formulario';
-import Time from '../../componentes/Time';
+import Banner from '../../componentes/PROJETO ALURA/Banner/Banner';
+import Formulario from '../../componentes/PROJETO ALURA/Formulario';
+import Time from '../../componentes/PROJETO ALURA/Time';
 import { IColaborador } from '../../compatilhado/interfaces/IColaborador';
 
 import imgBanner from '../../assets/imagens/banner.png'
