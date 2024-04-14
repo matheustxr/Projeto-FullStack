@@ -6,7 +6,7 @@ import { IColaborador } from '../../compatilhado/interfaces/IColaborador';
 
 import imgBanner from '../../assets/imagens/banner.png'
 
-export default function Home(){
+export default function HomePage(){
 
     const times = [
         {

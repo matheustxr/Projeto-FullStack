@@ -1,29 +1,37 @@
-import React, { useState } from 'react';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { Auth } from 'firebase/auth';
+import { useState } from "react";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from '../../Services/FireBaseConfig'
 
 import logo from '../../assets/imagens/logo.png';
-import { auth } from '../../Services/FireBaseConfig';
 
-export default function CreateUser() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+export default function Login() {
 
-    const [
-        createUserWithEmailAndPassword,
-    ] = useCreateUserWithEmailAndPassword(auth as Auth);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loginSuccess, setLoginSuccess] = useState(false); // Estado para controlar o sucesso do login
+  
+    const [signInWithEmailAndPassword, loading] =
+      useSignInWithEmailAndPassword(auth);
+  
+    function handleSignIn(e: React.FormEvent<HTMLFormElement>) {
+      e.preventDefault();
+      signInWithEmailAndPassword(email, password)
+        .then(() => {
+          setLoginSuccess(true); // Define o estado de login como true se o login for bem-sucedido
+        })
+        .catch((error) => {
+          // Erro no login
+          window.alert(`Erro ao fazer login: ${error.message}`);
+        });
+    }
+  
+    if (loading) {
+      return <p>carregando...</p>;
+    }
 
-    //ENVIA OS DADOS DO USUARIO PARA O BANCO DE DADOS 
-    function handleSignUp(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-
-        createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                window.alert('Cadastro realizado com sucesso!');
-            })
-            .catch((error) => {
-                window.alert(`Erro ao cadastrar: ${error.message}`);
-            });
+    // Se o login foi bem-sucedido, renderiza uma mensagem de sucesso
+    if (loginSuccess) {
+      return <p>Login realizado com sucesso!</p>;
     }
 
     return (
@@ -35,7 +43,7 @@ export default function CreateUser() {
                         <span>Por favor, digite suas informações de cadastro</span>
                     </header>
 
-                    <form className='flex flex-col gap-5' onSubmit={handleSignUp}>
+                    <form className='flex flex-col gap-5' onSubmit={handleSignIn}>
                         <div className="flex gap-2">
                             <label htmlFor="email">E-mail:</label>
                             <input
@@ -66,11 +74,11 @@ export default function CreateUser() {
                             type="submit"
                             className="bg-red-600 max-w-[300px] "
                         >
-                            Cadastrar 
+                            login 
                         </button>
                     </form>
                 </div>
             </div>
         </>
-    );
+    )
 }
