@@ -16,9 +16,23 @@ export default function CreateUser() {
         error,
     ] = useCreateUserWithEmailAndPassword(auth as Auth);
 
-    function handleSignUp(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    function criarUsuario(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault();
-        createUserWithEmailAndPassword(email, password);
+
+        // Verifica se os campos de e-mail e senha estão vazios
+        if (!email || !password) {
+            window.alert('Por favor, preencha todos os campos.');
+            return;
+        }
+
+        // Cadastra os dados do usuario no banco de dados
+        createUserWithEmailAndPassword(email, password)
+        .then(() => {
+            window.alert('Cadastro realizado com sucesso!');
+        })
+        .catch((error) => {
+            window.alert(`Erro ao cadastrar: ${error.message}`);
+        });
     }
 
     if (loading) {
@@ -53,15 +67,15 @@ export default function CreateUser() {
                                 type="password"
                                 name="password"
                                 id="password"
-                                placeholder="********************"
+                                placeholder="************"
                                 required
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
 
                         <button 
-                            onClick={handleSignUp} 
-                            className="bg-red-600"
+                            onClick={criarUsuario} 
+                            className="bg-red-600 max-w-[300px] "
                         >
                             Cadastrar 
                         </button>
