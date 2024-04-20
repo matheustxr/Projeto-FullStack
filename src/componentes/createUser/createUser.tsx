@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { Auth } from 'firebase/auth';
 
-import logo from '../../assets/imagens/logo.png';
 import { auth } from '../../Services/FireBaseConfig';
 
 export default function CreateUser() {
@@ -28,16 +27,12 @@ export default function CreateUser() {
 
     return (
         <>
-            <div className="bg-sky-300">
-                <div className='container py-20 mx-auto flex flex-col gap-10'>
-                    <header className="header">
-                        <img src={logo} alt="Workflow" className="logoImg" />
-                        <span>Por favor, digite suas informações de cadastro</span>
-                    </header>
+            <div className="w-full p-5">
+                <div className=' flex flex-col gap-10'>
 
                     <form className='flex flex-col gap-5' onSubmit={handleSignUp}>
-                        <div className="flex gap-2">
-                            <label htmlFor="email">E-mail:</label>
+                        <div className="flex flex-col md:flex-row md:items-center gap-2">
+                            <label className="w-[60px] " htmlFor="email">E-mail:</label>
                             <input
                                 type="text"
                                 name="email"
@@ -46,11 +41,12 @@ export default function CreateUser() {
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                className="w-full py-3 px-4 rounded-xl bg-gray-200"
                             />
                         </div>
 
-                        <div className="flex gap-2">
-                            <label htmlFor="password">Senha:</label>
+                        <div className="flex flex-col md:flex-row md:items-center gap-2">
+                            <label className="w-[60px] " htmlFor="password">Senha:</label>
                             <input
                                 type="password"
                                 name="password"
@@ -59,14 +55,15 @@ export default function CreateUser() {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                className="w-full py-3 px-4 rounded-xl bg-gray-200"
                             />
                         </div>
 
                         <button 
                             type="submit"
-                            className="bg-red-600 max-w-[300px] "
+                            className="bg-red-600 w-full max-w-[300px] mx-auto py-3 rounded-[30px] font-bold "
                         >
-                            Cadastrar 
+                            Criar Conta
                         </button>
                     </form>
                 </div>
