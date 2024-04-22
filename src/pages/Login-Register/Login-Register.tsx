@@ -2,11 +2,37 @@ import CreateUser from "../../componentes/createUser/createUser";
 import Login from "../../componentes/login/Login";
 
 
+
 export default function LoginRegister(){
+
+    function callCardLogin(){
+        const coverCard = document.querySelector('#coverCard');
+        coverCard?.classList.remove('left-side');
+        coverCard?.classList.add('right-side');
+
+        const contentLogin = document.querySelector('#hoverLogin');
+        contentLogin?.classList.add('hideContent')
+
+        const contentCriar = document.querySelector('#hoverCreate');
+        contentCriar?.classList.remove('hideContent')
+    }
+
+    function callCardCreate(){
+        const coverCard = document.querySelector('#coverCard');
+        coverCard?.classList.remove('right-side')
+        coverCard?.classList.add('left-side')
+
+        const contentLogin = document.querySelector('#hoverLogin');
+        contentLogin?.classList.remove('hideContent')
+
+        const contentCriar = document.querySelector('#hoverCreate');
+        contentCriar?.classList.add('hideContent')
+    }
+
     return(
         <>
-            <div className=" container my-20 mx-auto  rounded-[30px] bg-white ">
-                <div className="relative flex justify-around ">
+            <div className=" container my-20 mx-auto px-5 md:px-10 xl:px-20 ">
+                <div className="relative flex justify-around rounded-[30px] bg-white ">
                     {/* LOGIN */}
                     <div className="w-full p-5 md:p-10 flex flex-col items-center gap-4 border-2 border-red-600 ">
                         <h2 className="text-3xl">Entrar</h2>
@@ -26,8 +52,10 @@ export default function LoginRegister(){
                         
                         <Login />
                     </div>
+
                     {/* CRIAR CONTA */}
-                    <div className="w-full p-5 md:p-10 flex flex-col items-center gap-4 border-2 border-red-600 ">
+                    <div className="w-full p-5 md:p-10 flex flex-col items-center gap-4 border-2 border-red-600 "
+                    >
                         <h2 className="text-3xl">Criar Conta</h2>
                         <div className="flex justify-center gap-5">
                             <div className="p-5 flex justify-center items-center border rounded-full shadow-lg">
@@ -47,8 +75,11 @@ export default function LoginRegister(){
                     </div>
                     
                     {/* HOVER LOGIN */}
-                    <div className="absolute hidden left-0 w-1/2 h-full p-5 md:p-10 flex flex-col items-center justify-center gap-4 ">
-                        <h2 className="text-4xl font-extrabold bg-blue-500">
+                    <div 
+                        id="hoverLogin"
+                        className="absolute z-20 left-0 w-1/2 h-full p-5 md:p-10  flex flex-col items-center justify-center gap-4 transition-all duration-1000"
+                    >
+                        <h2 className="text-4xl font-extrabold ">
                         Bem-vindo de volta!
                         </h2>
 
@@ -56,14 +87,20 @@ export default function LoginRegister(){
                         Se mantenha conectado fazendo login com as suas informações!
                         </p>
 
-                        <button className="w-full max-w-[300px] mx-auto py-3 text-white font-bold border rounded-[30px] hover:bg-white hover:text-black">
+                        <button 
+                            className="w-full max-w-[300px] mx-auto py-3 text-white font-bold border rounded-[30px] hover:bg-white hover:text-black"
+                            onClick={callCardLogin}
+                        >
                             JÁ TENHO CONTA
                         </button>
                     </div>
 
                     {/* HOVER CRIAR CONTA */}
-                    <div className="absolute hidden right-0 w-1/2 h-full p-5 md:p-10 flex flex-col items-center justify-center gap-4 ">
-                        <h2 className="text-4xl font-extrabold bg-blue-500">
+                    <div 
+                        id="hoverCreate"
+                        className="absolute z-20 right-0 w-1/2 h-full p-5 md:p-10 flex flex-col items-center justify-center gap-4 transition-all duration-1000 hideContent"
+                    >
+                        <h2 className="text-4xl font-extrabold ">
                             Olá, amigo(a)!
                         </h2>
 
@@ -71,13 +108,16 @@ export default function LoginRegister(){
                         Insira algumas informações e comece a sua jornada conosco!
                         </p>
 
-                        <button className="w-full max-w-[300px] mx-auto py-3 text-white font-bold border rounded-[30px] hover:bg-white hover:text-black">
+                        <button 
+                            className="w-full max-w-[300px] mx-auto py-3 text-white font-bold uppercase border rounded-[30px] hover:bg-white hover:text-black"
+                            onClick={callCardCreate}
+                        >
                             quero criar uma conta
                         </button>
                     </div>
 
-                    <div className="absolute w-1/2 h-full">
-
+                    {/* BG QUE MUDA DE LADO */}
+                    <div id="coverCard" className="absolute left-0 z-10 w-1/2 h-full rounded-l-[30px] transition-all duration-[900ms] bg-green-600 ">
                     </div>
                 </div>
             </div>
