@@ -32,9 +32,9 @@ export default function LoginRegister(){
     return(
         <>
             <div className=" container my-20 mx-auto px-5 md:px-10 xl:px-20 ">
-                <div className="relative flex justify-around rounded-[30px] bg-white ">
+                <div className="relative flex flex-col md:flex-row justify-around rounded-[30px] bg-white overflow-hidden">
                     {/* LOGIN */}
-                    <div className="w-full p-5 md:p-10 flex flex-col items-center gap-4 border-2 border-red-600 ">
+                    <div className="w-full lg:min-h-[550px] p-5 md:p-10 flex flex-col items-center gap-4 border-2 border-red-600 ">
                         <h2 className="text-3xl">Entrar</h2>
                         <div className="flex justify-center gap-5">
                             <div className="p-5 flex justify-center items-center border rounded-full shadow-lg">
@@ -54,7 +54,7 @@ export default function LoginRegister(){
                     </div>
 
                     {/* CRIAR CONTA */}
-                    <div className="w-full p-5 md:p-10 flex flex-col items-center gap-4 border-2 border-red-600 "
+                    <div className="w-full lg:min-h-[550px] p-5 md:p-10 flex flex-col items-center gap-4 border-2 border-red-600 "
                     >
                         <h2 className="text-3xl">Criar Conta</h2>
                         <div className="flex justify-center gap-5">
@@ -77,7 +77,7 @@ export default function LoginRegister(){
                     {/* HOVER LOGIN */}
                     <div 
                         id="hoverLogin"
-                        className="absolute z-20 left-0 w-1/2 h-full p-5 md:p-10  flex flex-col items-center justify-center gap-4 transition-all duration-1000"
+                        className="absolute z-20 top-0 md:left-0 w-full md:w-1/2 h-1/2 md:h-full p-5 md:p-10  flex flex-col items-center justify-center gap-4 transition-all duration-1000"
                     >
                         <h2 className="text-4xl font-extrabold ">
                         Bem-vindo de volta!
@@ -98,7 +98,7 @@ export default function LoginRegister(){
                     {/* HOVER CRIAR CONTA */}
                     <div 
                         id="hoverCreate"
-                        className="absolute z-20 right-0 w-1/2 h-full p-5 md:p-10 flex flex-col items-center justify-center gap-4 transition-all duration-1000 hideContent"
+                        className="absolute z-20 bottom-0 md:right-0 w-full md:w-1/2 h-1/2 md:h-full p-5 md:p-10 flex flex-col items-center justify-center gap-4 transition-all duration-1000 hideContent"
                     >
                         <h2 className="text-4xl font-extrabold ">
                             Olá, amigo(a)!
@@ -117,7 +117,7 @@ export default function LoginRegister(){
                     </div>
 
                     {/* BG QUE MUDA DE LADO */}
-                    <div id="coverCard" className="absolute left-0 z-10 w-1/2 h-full rounded-l-[30px] transition-all duration-[900ms] bg-green-600 ">
+                    <div id="coverCard" className="absolute top-0 md:left-0 z-10 w-full md:w-1/2 h-1/2 md:h-full md:rounded-l-[30px] transition-all duration-[900ms] bg-green-600 ">
                     </div>
                 </div>
             </div>
