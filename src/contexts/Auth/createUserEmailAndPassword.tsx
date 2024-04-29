@@ -1,49 +1,42 @@
-import { useState } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from '../../Services/FireBaseConfig'
+import React, { useState } from 'react';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { Auth } from 'firebase/auth';
 
+import { auth } from '../../Services/FireBaseConfig';
 
-export default function Login() {
+export default function CreateUser() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [loginSuccess, setLoginSuccess] = useState(false); // Estado para controlar o sucesso do login
-  
-    const [signInWithEmailAndPassword, loading] = useSignInWithEmailAndPassword(auth);
-  
-    function handleSignIn(e: React.FormEvent<HTMLFormElement>) {
-      e.preventDefault();
-      signInWithEmailAndPassword(email, password)
-        .then(() => {
-          setLoginSuccess(true); // Define o estado de login como true se o login for bem-sucedido
-        })
-        .catch((error) => {
-          // Erro no login
-          window.alert(`Erro ao fazer login: ${error.message}`);
-        });
-    }
-  
-    if (loading) {
-      return <p>carregando...</p>;
-    }
+    const [
+        createUserWithEmailAndPassword,
+    ] = useCreateUserWithEmailAndPassword(auth as Auth);
 
-    // Se o login foi bem-sucedido, renderiza uma mensagem de sucesso
-    if (loginSuccess) {
-      return <p>Login realizado com sucesso!</p>;
+    //ENVIA OS DADOS DO USUARIO PARA O BANCO DE DADOS 
+    function handleSignUp(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+
+        createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                window.alert('Cadastro realizado com sucesso!');
+            })
+            .catch((error) => {
+                window.alert(`Erro ao cadastrar: ${error.message}`);
+            });
     }
 
     return (
         <>
-            <div className="w-full p-5 ">
+            <div className="w-full p-5">
                 <div className=' flex flex-col gap-10'>
 
-                    <form className='flex flex-col gap-5' onSubmit={handleSignIn}>
+                    <form className='flex flex-col gap-5' onSubmit={handleSignUp}>
                         <div className="flex flex-col md:flex-row md:items-center gap-2">
                             <label className="w-[60px] " htmlFor="email">E-mail:</label>
                             <input
                                 type="text"
                                 name="email"
-                                id="emailLogin"
+                                id="email"
                                 placeholder="johndoe@gmail.com"
                                 required
                                 value={email}
@@ -57,7 +50,7 @@ export default function Login() {
                             <input
                                 type="password"
                                 name="password"
-                                id="passwordLogin"
+                                id="password"
                                 placeholder="*********"
                                 required
                                 value={password}
@@ -70,11 +63,11 @@ export default function Login() {
                             type="submit"
                             className="bg-red-600 w-full max-w-[300px] mx-auto py-3 rounded-[30px] font-bold "
                         >
-                            ENTRAR 
+                            Criar Conta
                         </button>
                     </form>
                 </div>
             </div>
         </>
-    )
+    );
 }

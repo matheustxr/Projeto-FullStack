@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useApi } from "../../hooks/useApi";
-import { User } from "../../compatilhado/interfaces/User";
+import { useApi } from "../../../hooks/useApi";
+import { User } from "../../../compatilhado/interfaces/User";
 import { AuthContext } from "./AuthContext";
 
 

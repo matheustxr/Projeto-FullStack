@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Routes from './routes/Routes.tsx'
 import { BrowserRouter} from "react-router-dom";
-import { AuthProvider } from "./contexts/Auth/AuthProvider.tsx";
+import { AuthProvider } from "./contexts/Auth/antigo/AuthProvider.tsx";
 
 import './main.css'
 

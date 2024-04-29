@@ -1,5 +1,5 @@
-import CreateUser from "../../componentes/createUser/createUser";
-import Login from "../../componentes/login/Login";
+import CreateUser from "../../contexts/Auth/createUserEmailAndPassword";
+import Login from "../../contexts/Auth/AuthEmailAndPassword";
 
 
 
@@ -117,7 +117,7 @@ export default function LoginRegister(){
                     </div>
 
                     {/* BG QUE MUDA DE LADO */}
-                    <div id="coverCard" className="absolute top-0 md:left-0 z-10 w-full md:w-1/2 h-1/2 md:h-full md:rounded-l-[30px] transition-all duration-[900ms] bg-green-600 ">
+                    <div id="coverCard" className="absolute top-0 md:left-0 z-10 w-full md:w-1/2 h-1/2 md:h-full transition-all duration-[900ms] bg-green-600 ">
                     </div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import {useContext} from 'react'
-import { AuthContext } from "../../contexts/Auth/AuthContext"
+import { AuthContext } from "../../contexts/Auth/antigo/AuthContext"
 
 
 export default function PrivatePage(){
