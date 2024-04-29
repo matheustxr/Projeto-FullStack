@@ -1,46 +1,54 @@
-import { useState } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import React, { useState } from 'react';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '../../Services/FireBaseConfig';
+import { useUser } from './UserContext'; // Importe o contexto do usuário
 
-export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false); // Estado para controlar o carregamento
-    const [loginSuccess, setLoginSuccess] = useState(false); // Estado para controlar o sucesso do login
-    const [error, setError] = useState(""); // Estado para armazenar mensagens de erro
+const Login: React.FC = () => {
+    const { updateUser } = useUser(); // Use o hook do contexto do usuário
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [loginSuccess, setLoginSucess] = useState(false); 
+    const [error, setError] = useState('');
 
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
 
-    function handleSignIn(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        setLoading(true); // Ativar estado de carregamento
-        signInWithEmailAndPassword(email, password)
-            .then(() => {
-                setLoginSuccess(true); // Definir estado de sucesso do login
-            })
-            .catch((error) => {
-                setError(`Erro ao fazer login: ${error.message}`); // Definir mensagem de erro
-            })
-            .finally(() => {
-                setLoading(false); // Desativar estado de carregamento após o login
-            });
-    }
+    const handleSignIn = async () => {
+        setLoading(true);
+        try {
+            await signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    updateUser({ email, isLoggedIn: true }); // Atualize o usuário no contexto após o login
+                    setLoading(false);
+                    setLoginSucess(true)
+                })
+                .catch((error) => {
+                    setError(`Erro ao fazer login: ${error}`);
+                    setLoading(false);
+                });
+        } catch (error) {
+            setError(`Erro ao fazer login: ${error}`);
+            setLoading(false);
+        }
+    };
 
     if (loading) {
-        return <p>Carregando...</p>; // Exibir mensagem de carregamento
+        return <p>Carregando...</p>;
     }
 
     if (loginSuccess) {
-        return <p>Login realizado com sucesso!</p>; // Exibir mensagem de sucesso
+        return <p>Login feito com sucesso!</p>;
     }
 
     return (
         <>
             <div className="w-full p-5">
-                <div className='flex flex-col gap-10'>
-                    <form className='flex flex-col gap-5' onSubmit={handleSignIn}>
+                <div className="flex flex-col gap-10">
+                    <form className="flex flex-col gap-5" onSubmit={handleSignIn}>
                         <div className="flex flex-col md:flex-row md:items-center gap-2">
-                            <label className="w-[60px]" htmlFor="email">E-mail:</label>
+                            <label className="w-[60px]" htmlFor="email">
+                                E-mail:
+                            </label>
                             <input
                                 type="text"
                                 name="email"
@@ -53,7 +61,9 @@ export default function Login() {
                             />
                         </div>
                         <div className="flex flex-col md:flex-row md:items-center gap-2">
-                            <label className="w-[60px]" htmlFor="password">Senha:</label>
+                            <label className="w-[60px]" htmlFor="password">
+                                Senha:
+                            </label>
                             <input
                                 type="password"
                                 name="password"
@@ -74,7 +84,9 @@ export default function Login() {
                     </form>
                 </div>
             </div>
-            {error && <p>{error}</p>} {/* Exibir mensagem de erro, se houver */}
+            {error && <p>{error}</p>}
         </>
     );
-}
+};
+
+export default Login;

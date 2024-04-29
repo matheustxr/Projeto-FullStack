@@ -1,12 +1,20 @@
-import {useContext} from 'react'
-import { AuthContext } from "../../contexts/Auth/antigo/AuthContext"
+import { useUser } from "../../contexts/Auth/UserContext"
 
 
 export default function PrivatePage(){
-    const auth = useContext(AuthContext)
+    const { logOut } = useUser(); // Use o hook do contexto do usuário para acessar a função logOut
+
+    // const handleLogout = () => {
+    //     logOut(); // Chame a função logOut quando o botão de logout for clicado
+    // };
+
     return (
         <div>
-            <h1>Olá {auth.user?.name} seja bem vindo a página do usuário</h1>
+            <h1 className="text-4xl text-red-600">Olá  seja bem vindo a página do usuário</h1>
+
+            <button onClick={logOut} className="bg-white border-2 w-[200px] ">
+                sair
+            </button>
         </div>
     )
 }
