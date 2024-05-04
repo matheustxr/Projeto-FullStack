@@ -1,18 +1,21 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import Routes from './routes/Routes.tsx'
-import { BrowserRouter} from "react-router-dom";
-import { UserProvider } from './contexts/Auth/UserContext.tsx';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import Routes from './routes/Routes';
+import { UserProvider } from './contexts/Auth/UserContext';
+import { AuthGoogleProvider } from './contexts/Auth/AuthGoogle';
 
-import './main.css'
+import './main.css';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.render(
   <React.StrictMode>
     <UserProvider>
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
+      <AuthGoogleProvider>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      </AuthGoogleProvider>
     </UserProvider>
   </React.StrictMode>,
-)
-
+  document.getElementById('root')
+);

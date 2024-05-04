@@ -1,31 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 import { auth } from '../../Services/FireBaseConfig';
-import { useUser } from './UserContext'; // Importe o contexto do usuário
+import { useUser } from './UserContext';
 
 const Login: React.FC = () => {
-    const { updateUser } = useUser(); // Use o hook do contexto do usuário
+    const { user, updateUser } = useUser();
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const [loading, setLoading] = useState(false);
-    const [loginSuccess, setLoginSucess] = useState(false); 
+    const [loginSuccess, setLoginSuccess] = useState(false); 
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        if (user && user.isLoggedIn) {
+            setTimeout(() => {
+                navigate('/');
+            }, 500);
+        }
+    }, [user, navigate]);
 
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
 
     const handleSignIn = async () => {
         setLoading(true);
         try {
-            await signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    updateUser({ email, isLoggedIn: true }); // Atualize o usuário no contexto após o login
-                    setLoading(false);
-                    setLoginSucess(true)
-                })
-                .catch((error) => {
-                    setError(`Erro ao fazer login: ${error}`);
-                    setLoading(false);
-                });
+            const userCredential = await signInWithEmailAndPassword(email, password);
+            if (userCredential) {
+                const user = userCredential.user;
+                const token = await user.getIdToken(); // Obtenha o token do usuário
+                updateUser({ email, isLoggedIn: true, token }); // Atualize o usuário com o token
+                setLoading(false);
+                setLoginSuccess(true);
+                setTimeout(() => {
+                    navigate('/');
+                }, 3000);
+            } else {
+                setError(`Erro ao fazer login: credencial de usuário indefinida`);
+                setLoading(false);
+            }
         } catch (error) {
             setError(`Erro ao fazer login: ${error}`);
             setLoading(false);

@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
-interface User {
-  email: string;
+export interface User {
+  email?: string; // Torne o email opcional
   isLoggedIn: boolean;
+  token?: string; // Adicione a propriedade token ao User
 }
 
 interface UserContextType {
@@ -38,7 +39,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }, []);
 
     const updateUser = (userData: User) => {
-        setUser(userData);
+        const { email = '', isLoggedIn, token = '' } = userData; // Trate o valor nulo para email e token
+        setUser({ email, isLoggedIn, token });
         console.log('este é o usuario que acabou de logar ' + userData)
         // Salva os dados do usuário no localStorage quando eles forem atualizados
         localStorage.setItem('user', JSON.stringify(userData));
