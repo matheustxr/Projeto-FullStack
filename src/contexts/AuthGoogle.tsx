@@ -1,7 +1,7 @@
 // AuthGoogle.tsx
-import { createContext, useState, ReactNode, useContext } from 'react';
+import        { createContext, useState, ReactNode, useContext } from 'react';
 import { GoogleAuthProvider, signInWithPopup, UserCredential } from 'firebase/auth';
-import { auth } from "../../Services/FireBaseConfig";
+import { auth } from "../Services/FireBaseConfig";
 import { User as ContextUser } from './UserContext';
 import { useUser } from './UserContext'; // Importe o hook useUser
 

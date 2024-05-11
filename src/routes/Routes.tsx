@@ -4,7 +4,7 @@ import CadastroPage from "../pages/cadastroAlura/Index";
 import ErrorPage from "../pages/Error/ErrorPage";
 import Footer from "../componentes/PROJETO ALURA/Footer/Index";
 import PrivatePage from "../pages/Privada/PrivatePage";
-import RequireAuth from "../contexts/Auth/RequireAuth";
+import RequireAuth from "../contexts/RequireAuth";
 import LoginRegister from "../pages/Login-Register/Login-Register";
 
 function Routers() {

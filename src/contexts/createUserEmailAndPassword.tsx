@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { Auth } from 'firebase/auth';
 
-import { auth } from '../../Services/FireBaseConfig';
+import { auth } from '../Services/FireBaseConfig';
 
 export default function CreateUser() {
     const [email, setEmail] = useState('');

@@ -1,4 +1,4 @@
-import { useUser } from "../../contexts/Auth/UserContext"
+import { useUser } from "../../contexts/UserContext"
 
 
 export default function PrivatePage(){
