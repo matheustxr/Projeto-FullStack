@@ -2,7 +2,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import HomePage from "../pages/Home/HomePage";
 import CadastroPage from "../pages/cadastroAlura/Index";
 import ErrorPage from "../pages/Error/ErrorPage";
-import Footer from "../componentes/PROJETO ALURA/Footer/Index";
+import Footer from "../componentes/Footer/Footer";
 import PrivatePage from "../pages/Privada/PrivatePage";
 import RequireAuth from "../contexts/RequireAuth";
 import LoginRegister from "../pages/Login-Register/Login-Register";
