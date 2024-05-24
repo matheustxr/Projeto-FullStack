@@ -1,9 +1,10 @@
 // AuthGoogle.tsx
-import        { createContext, useState, ReactNode, useContext } from 'react';
+import { createContext, useState, ReactNode, useContext } from 'react';
 import { GoogleAuthProvider, signInWithPopup, UserCredential } from 'firebase/auth';
 import { auth } from "../Services/FireBaseConfig";
 import { User as ContextUser } from './UserContext';
 import { useUser } from './UserContext'; // Importe o hook useUser
+import { message } from 'antd';
 
 const provider = new GoogleAuthProvider();
 
@@ -22,6 +23,7 @@ interface AuthGoogleProviderProps {
 export const AuthGoogleProvider = ({ children }: AuthGoogleProviderProps) => {
     const [user, setUser] = useState<ContextUser | null>(null);
     const { updateUser } = useUser(); // Obtenha a função updateUser do UserContext
+    const [messageApi, contextHolder] = message.useMessage();
 
     const signInGoogle = () => {
         signInWithPopup(auth, provider)
@@ -38,12 +40,16 @@ export const AuthGoogleProvider = ({ children }: AuthGoogleProviderProps) => {
                     updateUser(contextUser); // Atualize o contexto do usuário no UserContext
                     sessionStorage.setItem("@AuthFirebase:token", contextUser.token || '');
                     sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(contextUser));
+
+                    messageApi.success('Login com Google realizado com sucesso!');
                 }).catch((error) => {
                     console.log(error);
+                    messageApi.error('Erro ao obter o token do usuário.');
                 });
             })
             .catch((error) => {
-                console.log(error)
+                console.log(error);
+                messageApi.error('Erro ao fazer login com o Google.');
             });
     };
 
@@ -55,6 +61,7 @@ export const AuthGoogleProvider = ({ children }: AuthGoogleProviderProps) => {
                 signInGoogle,
             }}
         >
+            {contextHolder}
             {children}
         </AuthGoogleContext.Provider>
     );

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 export interface User {
-  email?: string; // Torne o email opcional
+  email: string | null; // Torne o email opcional
   isLoggedIn: boolean;
   token?: string; // Adicione a propriedade token ao User
 }

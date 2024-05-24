@@ -1,62 +1,131 @@
 // FormCardUser.tsx
-import React, { useState } from 'react';
-import { ColorPicker } from 'antd';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { doc, setDoc } from 'firebase/firestore';
 import { firestore } from '../../Services/FireBaseConfig'; // Certifique-se de importar o Firestore configurado corretamente
 import { useUser } from '../../contexts/UserContext';
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, ColorPicker, message } from 'antd';
 
-export default function FormCardUser() {
-    const { user } = useUser();
-    const [nome, setNome] = useState('');
-    const [area, setArea] = useState('');
-    const [sobre, setSobre] = useState('');
-    const [cor, setCor] = useState('#1677ff');
+interface User {
+    email: string | null;
+}
 
-    const handleSubmit = async (e: React.FormEvent) => {
+interface Card {
+    nome: string;
+    area: string;
+    sobre: string;
+    cor: string;
+    userId: string;
+}
+
+const FormCardUser: React.FC = () => {
+    const { user } = useUser() as { user: User | null };
+    const [nome, setNome] = useState<string>('');
+    const [area, setArea] = useState<string>('');
+    const [sobre, setSobre] = useState<string>('');
+    const [cor, setCor] = useState<string>('#1677ff');
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        if (!user || !user.email) {
+            messageApi.open({
+                type: 'warning',
+                content: 'Você precisa estar logado para criar um card',
+            });
+            return;
+        }
+
         // Salvar os dados do card no Firestore
-        const newCard = {
+        const newCard: Card = {
             nome,
             area,
             sobre,
             cor,
-            userId: user!.email // Associe o card ao usuário logado
+            userId: user.email // Associe o card ao usuário logado
         };
 
         try {
-            const cardRef = doc(firestore, 'cards', user!.email); // Referência ao documento 'cards/{user.email}'
+            const cardRef = doc(firestore, 'cards', user.email); // Referência ao documento 'cards/{user.email}'
             await setDoc(cardRef, newCard); // Adiciona o novo documento ao Firestore
-            alert('Card criado com sucesso!');
+            messageApi.open({
+                type: 'success',
+                content: 'Card criado com sucesso!',
+            });
         } catch (error) {
             console.error('Erro ao criar card:', error);
+            messageApi.open({
+                type: 'error',
+                content: 'Erro ao criar card. Tente novamente.',
+            });
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit} method="post">
-                <div>
+        <div className='p-5 w-full max-w-[400px] bg-gray-300 rounded-lg shadow-xl'>
+            {contextHolder}
+            <form 
+                onSubmit={handleSubmit}
+                method="post"
+                className='flex flex-col gap-3'
+            >   
+                <div className='w-full flex justify-center'>
+                    <Avatar size={64} icon={<UserOutlined />} />
+                </div>
+                <div className='flex flex-col'>
                     <label htmlFor="nome">Nome:</label>
-                    <input type="text" id="nome" value={nome} onChange={(e) => setNome(e.target.value)} />
+                    <input 
+                        type="text" 
+                        id="nome" 
+                        value={nome} 
+                        required
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setNome(e.target.value)}
+                        className='p-2 w-full rounded shadow-md'
+                    />
                 </div>
 
-                <div>
+                <div className='flex flex-col'>
                     <label htmlFor="area">Área:</label>
-                    <input type="text" id="area" value={area} onChange={(e) => setArea(e.target.value)} />
+                    <input 
+                        type="text" 
+                        id="area" 
+                        value={area} 
+                        required
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setArea(e.target.value)}
+                        className='p-2 w-full rounded shadow-md'
+                    />
                 </div>
 
-                <div>
+                <div className='flex flex-col'>
                     <label htmlFor="sobre">Sobre:</label>
-                    <textarea id="sobre" value={sobre} onChange={(e) => setSobre(e.target.value)} />
+                    <textarea 
+                        id="sobre" 
+                        value={sobre} 
+                        required
+                        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setSobre(e.target.value)}
+                        className='p-2 w-full rounded shadow-md'
+                    />
                 </div>
 
-                <ColorPicker value={cor} onChange={(color) => setCor(color.toHexString())} />
+                <div className='flex flex-col'>
+                    <label htmlFor="">Selecione sua cor preferida:</label>
+                    <ColorPicker 
+                        value={cor} 
+                        onChange={(color) => setCor(color.toHexString())}
+                        className='w-fit'
+                    />
+                </div>
 
-                <button type="submit">
+                <button 
+                    type="submit"
+                    className='bg-white py-2 mt-5 rounded-lg shadow-lg hover:shadow-none'
+                >
                     Criar Card
                 </button>
             </form>
         </div>
     );
 }
+
+export default FormCardUser;

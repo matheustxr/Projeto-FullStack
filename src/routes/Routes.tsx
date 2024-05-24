@@ -1,6 +1,6 @@
 import { Routes, Route, Link } from "react-router-dom";
 import HomePage from "../pages/Home/HomePage";
-import CadastroPage from "../pages/cadastroAlura/Index";
+import CadastroPage from "../pages/Cadastro-Card/CadastroCard";
 import ErrorPage from "../pages/Error/ErrorPage";
 import Footer from "../componentes/Footer/Footer";
 import PrivatePage from "../pages/Privada/PrivatePage";
