@@ -1,16 +1,18 @@
-// FormCardUser.tsx
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { doc, setDoc } from 'firebase/firestore';
-import { firestore } from '../../Services/FireBaseConfig'; // Certifique-se de importar o Firestore configurado corretamente
+import { firestore, storage } from '../../Services/FireBaseConfig'; // Certifique-se de importar o Firestore e o Storage configurados corretamente
 import { useUser } from '../../contexts/UserContext';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, ColorPicker, message } from 'antd';
+
+import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage'; // Importe a função getDownloadURL do Firebase Storage
 
 interface User {
     email: string | null;
 }
 
 interface Card {
+    profileImageUrl: string; // Alterada para o tipo string para armazenar o URL da imagem
     nome: string;
     area: string;
     sobre: string;
@@ -24,7 +26,23 @@ const FormCardUser: React.FC = () => {
     const [area, setArea] = useState<string>('');
     const [sobre, setSobre] = useState<string>('');
     const [cor, setCor] = useState<string>('#1677ff');
+    const [image, setImage] = useState<File | null>(null); // Novo estado para armazenar a imagem selecionada
+    const [imageUrl, setImageUrl] = useState<string>(''); // Estado para exibir uma pré-visualização da imagem
     const [messageApi, contextHolder] = message.useMessage();
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const selectedImage = e.target.files[0];
+            setImage(selectedImage);
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    setImageUrl(reader.result as string);
+                }
+            };
+            reader.readAsDataURL(selectedImage);
+        }
+    };
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -39,14 +57,23 @@ const FormCardUser: React.FC = () => {
 
         // Salvar os dados do card no Firestore
         const newCard: Card = {
+            profileImageUrl: '',
             nome,
             area,
             sobre,
             cor,
-            userId: user.email // Associe o card ao usuário logado
+            userId: user.email, // Associe o card ao usuário logado
         };
 
         try {
+            // Upload da imagem para o Firebase Storage
+            if (image) {
+                const imageRef = storageRef(storage, `profileImages/${user.email}/${image.name}`);
+                await uploadBytes(imageRef, image);
+                const downloadUrl = await getDownloadURL(imageRef);
+                newCard.profileImageUrl = downloadUrl; // Atribua o URL da imagem a profileImageUrl
+            }
+
             const cardRef = doc(firestore, 'cards', user.email); // Referência ao documento 'cards/{user.email}'
             await setDoc(cardRef, newCard); // Adiciona o novo documento ao Firestore
             messageApi.open({
@@ -71,7 +98,16 @@ const FormCardUser: React.FC = () => {
                 className='flex flex-col gap-3'
             >   
                 <div className='w-full flex justify-center'>
-                    <Avatar size={64} icon={<UserOutlined />} />
+                    <label htmlFor="avatar" style={{ cursor: 'pointer' }}>
+                        <Avatar size={64} icon={<UserOutlined />} src={imageUrl} />
+                        <input
+                            type="file"
+                            id="avatar"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={handleChange}
+                        />
+                    </label>
                 </div>
                 <div className='flex flex-col'>
                     <label htmlFor="nome">Nome:</label>
