@@ -62,7 +62,7 @@ const Login: React.FC = () => {
                 <div className="flex flex-col gap-10">
                     <form className="flex flex-col gap-5" onSubmit={handleSignIn}>
                         <div className="flex flex-col md:flex-row md:items-center gap-2">
-                            <label className="w-[60px]" htmlFor="email">
+                            <label className="w-full max-w-[55px] " htmlFor="email">
                                 E-mail:
                             </label>
                             <input
@@ -77,7 +77,7 @@ const Login: React.FC = () => {
                             />
                         </div>
                         <div className="flex flex-col md:flex-row md:items-center gap-2">
-                            <label className="w-[60px]" htmlFor="password">
+                            <label className="w-full max-w-[55px] " htmlFor="password">
                                 Senha:
                             </label>
                             <input

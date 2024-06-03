@@ -58,7 +58,7 @@ export default function CreateUser() {
 
                     <form className='flex flex-col gap-5' onSubmit={handleSignUp}>
                         <div className="flex flex-col md:flex-row md:items-center gap-2">
-                            <label className="w-[60px] " htmlFor="email">E-mail:</label>
+                            <label className="w-full max-w-[55px] " htmlFor="email">E-mail:</label>
                             <input
                                 type="email" // Alterado para type="email" para ativar a validação de email do navegador
                                 name="email"
@@ -72,7 +72,7 @@ export default function CreateUser() {
                         </div>
 
                         <div className="flex flex-col md:flex-row md:items-center gap-2">
-                            <label className="w-[60px] " htmlFor="password">Senha:</label>
+                            <label className="w-full max-w-[55px] " htmlFor="password">Senha:</label>
                             <input
                                 type="password"
                                 name="password"
