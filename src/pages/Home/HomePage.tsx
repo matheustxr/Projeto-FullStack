@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import { IColaborador } from '../../compatilhado/interfaces/IColaborador';
-
 
 export default function HomePage(){
     return (

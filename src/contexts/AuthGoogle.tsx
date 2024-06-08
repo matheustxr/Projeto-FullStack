@@ -3,7 +3,7 @@ import { createContext, useState, ReactNode, useContext } from 'react';
 import { GoogleAuthProvider, signInWithPopup, UserCredential } from 'firebase/auth';
 import { auth } from "../Services/FireBaseConfig";
 import { User as ContextUser } from './UserContext';
-import { useUser } from './UserContext'; // Importe o hook useUser
+import { useUser } from './UserContext';
 import { message } from 'antd';
 
 const provider = new GoogleAuthProvider();
@@ -22,7 +22,7 @@ interface AuthGoogleProviderProps {
 
 export const AuthGoogleProvider = ({ children }: AuthGoogleProviderProps) => {
     const [user, setUser] = useState<ContextUser | null>(null);
-    const { updateUser } = useUser(); // Obtenha a função updateUser do UserContext
+    const { updateUser } = useUser(); 
     const [messageApi, contextHolder] = message.useMessage();
 
     const signInGoogle = () => {
@@ -37,7 +37,7 @@ export const AuthGoogleProvider = ({ children }: AuthGoogleProviderProps) => {
                         token: token || ''
                     };
                     setUser(contextUser);
-                    updateUser(contextUser); // Atualize o contexto do usuário no UserContext
+                    updateUser(contextUser); 
                     sessionStorage.setItem("@AuthFirebase:token", contextUser.token || '');
                     sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(contextUser));
 

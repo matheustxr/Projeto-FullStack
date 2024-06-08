@@ -1,18 +1,17 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { doc, setDoc } from 'firebase/firestore';
-import { firestore, storage } from '../../Services/FireBaseConfig'; // Certifique-se de importar o Firestore e o Storage configurados corretamente
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { doc, setDoc, getDoc } from 'firebase/firestore'; 
+import { firestore, storage } from '../../Services/FireBaseConfig'; 
 import { useUser } from '../../contexts/UserContext';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, ColorPicker, message } from 'antd';
-
-import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage'; // Importe a função getDownloadURL do Firebase Storage
+import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage'; 
 
 interface User {
     email: string | null;
 }
 
 interface Card {
-    profileImageUrl: string; // Alterada para o tipo string para armazenar o URL da imagem
+    profileImageUrl: string; 
     nome: string;
     area: string;
     sobre: string;
@@ -26,9 +25,38 @@ const FormCardUser: React.FC = () => {
     const [area, setArea] = useState<string>('');
     const [sobre, setSobre] = useState<string>('');
     const [cor, setCor] = useState<string>('#1677ff');
-    const [image, setImage] = useState<File | null>(null); // Novo estado para armazenar a imagem selecionada
-    const [imageUrl, setImageUrl] = useState<string>(''); // Estado para exibir uma pré-visualização da imagem
+    const [image, setImage] = useState<File | null>(null); 
+    const [imageUrl, setImageUrl] = useState<string>(''); 
     const [messageApi, contextHolder] = message.useMessage();
+
+    
+    useEffect(() => {
+        const fetchCardData = async () => {
+            if (user && user.email) {
+                try {
+                    const cardRef = doc(firestore, 'cards', user.email);
+                    const cardDoc = await getDoc(cardRef);
+
+                    if (cardDoc.exists()) {
+                        const cardData = cardDoc.data() as Card;
+                        setNome(cardData.nome);
+                        setArea(cardData.area);
+                        setSobre(cardData.sobre);
+                        setCor(cardData.cor);
+                        setImageUrl(cardData.profileImageUrl); 
+                    }
+                } catch (error) {
+                    console.error('Erro ao buscar os dados do card:', error);
+                    messageApi.open({
+                        type: 'error',
+                        content: 'Erro ao buscar os dados do card. Tente novamente.',
+                    });
+                }
+            }
+        };
+
+        fetchCardData();
+    }, [user]); 
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -55,27 +83,27 @@ const FormCardUser: React.FC = () => {
             return;
         }
 
-        // Salvar os dados do card no Firestore
+        
         const newCard: Card = {
             profileImageUrl: '',
             nome,
             area,
             sobre,
             cor,
-            userId: user.email, // Associe o card ao usuário logado
+            userId: user.email, 
         };
 
         try {
-            // Upload da imagem para o Firebase Storage
+            
             if (image) {
                 const imageRef = storageRef(storage, `profileImages/${user.email}/${image.name}`);
                 await uploadBytes(imageRef, image);
                 const downloadUrl = await getDownloadURL(imageRef);
-                newCard.profileImageUrl = downloadUrl; // Atribua o URL da imagem a profileImageUrl
+                newCard.profileImageUrl = downloadUrl; 
             }
 
-            const cardRef = doc(firestore, 'cards', user.email); // Referência ao documento 'cards/{user.email}'
-            await setDoc(cardRef, newCard); // Adiciona o novo documento ao Firestore
+            const cardRef = doc(firestore, 'cards', user.email); 
+            await setDoc(cardRef, newCard);
             messageApi.open({
                 type: 'success',
                 content: 'Card criado com sucesso!',

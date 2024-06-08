@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 export interface User {
-  email: string | null; // Torne o email opcional
+  email: string | null;
   isLoggedIn: boolean;
-  token?: string; // Adicione a propriedade token ao User
+  token?: string;
 }
 
 interface UserContextType {
@@ -14,7 +14,6 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | null>(null);
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useUser = () => {
     const context = useContext(UserContext);
     if (!context) {
@@ -31,7 +30,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        // Recupera os dados do usuário do localStorage quando o componente é montado
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             setUser(JSON.parse(storedUser));
@@ -39,17 +37,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }, []);
 
     const updateUser = (userData: User) => {
-        const { email = '', isLoggedIn, token = '' } = userData; // Trate o valor nulo para email e token
+        const { email = '', isLoggedIn, token = '' } = userData; 
         setUser({ email, isLoggedIn, token });
         console.log('este é o usuario que acabou de logar ' + userData)
-        // Salva os dados do usuário no localStorage quando eles forem atualizados
         localStorage.setItem('user', JSON.stringify(userData));
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const logOut = () => {
-        setUser(null); // Limpa os dados do usuário do estado
-        localStorage.removeItem('user'); // Remove os dados do usuário do localStorage
+        setUser(null);
+        localStorage.removeItem('user'); 
     };
     
     return (

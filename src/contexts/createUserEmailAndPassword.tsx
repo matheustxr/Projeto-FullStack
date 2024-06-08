@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { message } from 'antd'; // Importe a componente de mensagem do Ant Design
+import { message } from 'antd';
 import { auth } from '../Services/FireBaseConfig';
 import { useUser } from './UserContext';
 import { useNavigate } from 'react-router-dom';
@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 export default function CreateUser() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { updateUser } = useUser(); // Obtenha a função updateUser do UserContext
-    const navigate = useNavigate(); // Obtenha a função navigate do React Router
+    const { updateUser } = useUser(); 
+    const navigate = useNavigate(); 
 
     const [
         createUserWithEmailAndPassword,
@@ -36,9 +36,9 @@ export default function CreateUser() {
                 if (userCredential) {
                     const user = userCredential.user;
                     if (user) {
-                        updateUser({ email: user.email, isLoggedIn: true }); // Atualiza o contexto do usuário
-                        message.success('Cadastro realizado com sucesso!'); // Exibe mensagem de sucesso
-                        navigate('/'); // Navega para a página inicial após o cadastro
+                        updateUser({ email: user.email, isLoggedIn: true }); 
+                        message.success('Cadastro realizado com sucesso!'); 
+                        navigate('/'); 
                     } else {
                         message.error('Erro ao cadastrar: Usuário não encontrado');
                     }
@@ -47,7 +47,7 @@ export default function CreateUser() {
                 }
             })
             .catch((error) => {
-                message.error(`Erro ao cadastrar: ${error.message}`); // Exibe mensagem de erro
+                message.error(`Erro ao cadastrar: ${error.message}`);
             });
     }
 
@@ -60,7 +60,7 @@ export default function CreateUser() {
                         <div className="flex flex-col md:flex-row md:items-center gap-2">
                             <label className="w-full max-w-[55px] " htmlFor="email">E-mail:</label>
                             <input
-                                type="email" // Alterado para type="email" para ativar a validação de email do navegador
+                                type="email" 
                                 name="email"
                                 id="email"
                                 placeholder="johndoe@gmail.com"

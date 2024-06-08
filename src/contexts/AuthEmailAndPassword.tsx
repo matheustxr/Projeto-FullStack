@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
-import { message } from 'antd'; // Importe a componente de mensagem do Ant Design
+import { message } from 'antd';
 import { auth } from '../Services/FireBaseConfig';
 import { useUser } from './UserContext';
 
@@ -25,7 +25,7 @@ const Login: React.FC = () => {
 
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
 
-    const [messageApi, contextHolder] = message.useMessage(); // Use a função useMessage para acessar a mensagem
+    const [messageApi, contextHolder] = message.useMessage();
 
     const handleSignIn = async () => {
         setLoading(true);
@@ -33,10 +33,10 @@ const Login: React.FC = () => {
             const userCredential = await signInWithEmailAndPassword(email, password);
             if (userCredential) {
                 const user = userCredential.user;
-                const token = await user.getIdToken(); // Obtenha o token do usuário
-                updateUser({ email, isLoggedIn: true, token }); // Atualize o usuário com o token
+                const token = await user.getIdToken(); 
+                updateUser({ email, isLoggedIn: true, token }); 
                 setLoading(false);
-                messageApi.success('Login feito com sucesso!'); // Exibe mensagem de sucesso
+                messageApi.success('Login feito com sucesso!'); 
                 setTimeout(() => {
                     navigate('/');
                 }, 3000);
@@ -47,7 +47,7 @@ const Login: React.FC = () => {
         } catch (error) {
             setError(`Erro ao fazer login: ${error}`);
             setLoading(false);
-            messageApi.error(`Erro ao fazer login: ${error}`); // Exibe mensagem de erro
+            messageApi.error(`Erro ao fazer login: ${error}`); 
         }
     };
 
@@ -57,7 +57,7 @@ const Login: React.FC = () => {
 
     return (
         <>
-            {contextHolder} {/* Renderiza a componente de mensagem do Ant Design */}
+            {contextHolder}
             <div className="w-full p-5">
                 <div className="flex flex-col gap-10">
                     <form className="flex flex-col gap-5" onSubmit={handleSignIn}>
