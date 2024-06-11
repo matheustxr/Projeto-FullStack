@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Formulario from '../../componentes/FormCardUser/FormCardUser';
 import { doc, getDoc } from 'firebase/firestore';
 import { firestore } from '../../Services/FireBaseConfig';
